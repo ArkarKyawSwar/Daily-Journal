@@ -1,0 +1,31 @@
+<%- include("partial/header") -%>
+
+    <h1 class="big-heading">Home</h1>
+    <div class="card home-card">
+        <div class="card-body">
+            <a class="btn btn-dark home-button" href="compose" role="button">Compose</a><br>
+            <a class="btn btn-outline-dark home-button" href="seeall" role="button">See all posts</a>
+        </div>
+    </div>
+    <% if(posts.length > 3){ %>
+        <p><%=homeStartingContent%></p>
+        <% for(var i = posts.length - 1 ; i > posts.length - 4; i--) { %>
+            <h3><%=posts[i].title%><h3>
+            <p class="post-contents"><%=posts[i].content.slice(0, 100)+" ..."%><a class="read-more" href="/posts/<%=posts[i]._id%>">Read more</a></p>
+        <% }; %>
+   <% } else if (posts.length > 0 && posts.length <= 3){ %>
+    <p><%=homeStartingContent%></p>
+    <% for(var i = posts.length - 1 ; i >= 0; i--) { %>
+        <h3><%=posts[i].title%><h3>
+        <p class="post-contents"><%=posts[i].content.slice(0, 100)+" ..."%><a class="read-more" href="/posts/<%=posts[i]._id%>">Read more</a></p>
+        <% }; %>
+    <% } else { %>
+        <p>Looks like you have no posts yet. Compose your first post now!</p>
+        <% for(var i = 0 ; i < posts.length ; i++) { %>
+            <h3><%=posts[i].title%><h3>
+            <p class="post-contents"><%=posts[i].content.slice(0, 100)+" ..."%><a class="read-more" href="/posts/<%=posts[i]._id%>">Read more</a></p>
+            <% }; %>
+        <% } %>
+
+<%- include("partial/footer") -%>
+

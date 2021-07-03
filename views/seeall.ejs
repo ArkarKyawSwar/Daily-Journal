@@ -1,0 +1,27 @@
+<%- include("partial/header") -%>
+
+<h1 class="big-heading">All Posts</h1>
+<div style="margin-top: 30px; margin-left: 50px;">
+    <% if (posts.length > 0){ %>
+        <% for(var i = posts.length - 1 ; i >= 0; i--) { %>
+            <ul class="see-all-ul">
+                <li class="see-all-li">
+                    <h5><a class="see-all" href="/posts/<%=posts[i]._id%>">-<%=posts[i].title%></a></h5>
+                </li>
+                <li>
+                    <form action="/delete" method="post">
+                        <div>
+                            <button class="delete-form" type="submit" name="deleted" value="<%=posts[i]._id%>"><i class="fas fa-trash-alt"></i></button>
+                        </div>
+                    </form>
+                </li>
+            </ul>
+            <% }; %>
+        <% } else { %>
+            <p>You have not uploaded any posts.</p>
+        <% } %>
+</div>
+
+
+
+<%- include("partial/footer") -%>
