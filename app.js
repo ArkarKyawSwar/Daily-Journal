@@ -28,7 +28,10 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-const port = process.env.PORT;
+let port = process.env.PORT;
+if(port == null || port == ""){
+  port = 3000;
+}
 
 //Database setup
 const mongoUsername = process.env.MONGO_USERNAME;
@@ -82,7 +85,7 @@ passport.use(new GoogleStrategy({
   userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo"
 },
 function(accessToken, refreshToken, profile, cb) {
-  User.findOrCreate({ googleId: profile.id }, function (err, user) {
+  User.findOrCreate({ username: profile.emails[0].value , googleId: profile.id }, function (err, user) {
     return cb(err, user);
   });
 }
@@ -168,7 +171,7 @@ app.post("/delete", function(req, res){
 });
 
 app.get('/auth/google',
-  passport.authenticate('google', { scope: ['profile'] }));
+  passport.authenticate('google', { scope: ['profile', 'email'] }));
 
 app.get('/auth/google/dailyjournal', 
   passport.authenticate('google', { failureRedirect: '/' }),
@@ -225,6 +228,6 @@ app.get("/posts/:postid", function(req, res){
   });
 });
 
-app.listen(port || 3000, function() {
-  console.log("Server started on port 3000");
+app.listen(port, function() {
+  console.log("Server has started.");
 });
